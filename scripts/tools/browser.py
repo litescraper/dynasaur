@@ -205,7 +205,8 @@ class SimpleTextBrowser:
 
 
     def _serpapi_search(self, query: str, filter_year: Optional[int] = None) -> None:
-        if self.serpapi_key is None:
+        litescrape_key = os.getenv("LITESCRAPE_API_KEY")
+        if self.serpapi_key is None and not litescrape_key:
             raise ValueError("Missing SerpAPI key.")
         
         params = {
@@ -216,8 +217,19 @@ class SimpleTextBrowser:
         if filter_year is not None:
             params["tbs"] = f"cdr:1,cd_min:01/01/{filter_year},cd_max:12/31/{filter_year}"
 
-        search = GoogleSearch(params)
-        results = search.get_dict()
+        if litescrape_key:
+            payload = {"q": query, "num": 10}
+            if filter_year is not None:
+                payload["tbs"] = params["tbs"]
+            response = requests.get(
+                f'{os.getenv("LITESCRAPE_BASE_URL", "https://api.litescrape.com").rstrip("/")}/api/google/search',
+                headers={"Authorization": f"Bearer {litescrape_key}"}, params=payload, timeout=60,
+            )
+            response.raise_for_status()
+            results = response.json()
+        else:
+            search = GoogleSearch(params)
+            results = search.get_dict()
         self.page_title = f"{query} - Search"
         if "organic_results" not in results.keys():
             raise Exception(f"'organic_results' key not found in results: {results}. Use a less restrictive query.")

@@ -39,6 +39,11 @@ AZURE_GPT4V_ENDPOINT=""
 AZURE_GPT4V_API_VERSION=""
 ```
 
+For native Litescrape browser searches, set `LITESCRAPE_API_KEY` and optionally
+`LITESCRAPE_BASE_URL` (default: `https://api.litescrape.com`). A configured key
+takes precedence over the SerpAPI key; searches use the native Google Search
+API and retain the existing result rendering and year filters.
+
 ### 2. Download the GAIA files:
 You will need a Hugging Face (HF) access token with write permissions before cloning the GAIA repository. Visit [this page](https://huggingface.co/settings/tokens) to generate your token. Then log in to HF using the following command:
 ```bash
