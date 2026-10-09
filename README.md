@@ -39,6 +39,11 @@ AZURE_GPT4V_ENDPOINT=""
 AZURE_GPT4V_API_VERSION=""
 ```
 
+To use Serper instead of SerpAPI for browser searches, set `SERPER_API_KEY`.
+Optionally set `SERPER_BASE_URL` (default: `https://google.serper.dev`, without
+`/search`). A configured Serper key takes precedence over the SerpAPI key.
+Support any Serper.dev-compatible endpoint (like litescrape.com, serpbase.dev, serpensapi.org, and others).
+
 ### 2. Download the GAIA files:
 You will need a Hugging Face (HF) access token with write permissions before cloning the GAIA repository. Visit [this page](https://huggingface.co/settings/tokens) to generate your token. Then log in to HF using the following command:
 ```bash
